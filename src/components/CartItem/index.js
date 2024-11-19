@@ -16,6 +16,7 @@ const CartItem = props => (
 
       const {cartItemDetails} = props
       const {id, title, brand, quantity, price, imageUrl} = cartItemDetails
+
       const onRemoveCartItem = () => {
         removeCartItem(id)
       }
@@ -25,7 +26,11 @@ const CartItem = props => (
       }
 
       const onDecreaseQuantity = () => {
-        decrementCartItemQuantity(id)
+        if (quantity === 1) {
+          removeCartItem(id)
+        } else {
+          decrementCartItemQuantity(id)
+        }
       }
 
       return (
@@ -45,7 +50,9 @@ const CartItem = props => (
               >
                 <BsDashSquare color="#52606D" size={12} />
               </button>
-              <p className="cart-quantity">{quantity}</p>
+              <p className="cart-quantity" data-testid={`quantity-${id}`}>
+                {quantity}
+              </p>
               <button
                 type="button"
                 onClick={onIncreaseQuantity}
